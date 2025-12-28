@@ -1,0 +1,30 @@
+footer{
+    background-color: #272932;
+    padding: 40px 20px;
+    width: 100vw;
+}
+footer a{
+    color: white;
+}
+footer img{
+    height: 32px;
+    border-radius: 4px;
+}
+footer .logo-span{
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+.footer-flex-container{
+    display: flex;
+    align-items: center;
+    gap: 100px;
+}
+.social-media{
+    margin: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    
+}
+.social-media p{
+    margin-bottom: 10px;
+}

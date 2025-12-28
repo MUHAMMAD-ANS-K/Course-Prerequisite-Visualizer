@@ -1,0 +1,128 @@
+.nav{
+    margin-top: 40px;
+    background-color: #181818;
+    position: sticky;
+    margin-left: 6vw;
+    border-radius: 10px;
+    width: 88vw;
+}
+.main-nav{
+    position: relative;
+    height: 80px;
+    width: 88vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+.main-nav a{
+    color: white;
+}
+.main-nav img{
+    height: 32px;
+    border-radius: 4px;
+}
+.main-nav ul{
+    list-style: none;
+}
+.logo{
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    gap: 8px;
+    font-weight: 700;
+}
+.logo:hover{
+    opacity: 70%;
+}
+.nav-list{
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    font-weight: 550;
+    font-size: 1rem;
+}
+.nav-list li{
+    position: relative;
+}
+.line-blue{
+    position: absolute;
+    background-color: #186aff;
+    height: 2px;
+    border-radius: 0.5px;
+    bottom: -16px;
+}
+.nav-buttons{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.nav-buttons button{
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+.nav-button-1{
+    background-color: transparent;
+    border: 1px solid white;
+    padding: 11px 16px;
+    border-radius: 6px;
+}
+.nav-button-1:hover{
+    background-color: rgb(110, 110, 110);
+}
+.nav-button-2{
+    padding: 11px 16px;
+    background-color: #186aff;
+    border: none;
+    border-radius: 6px;
+    display: inline-block;
+}
+.nav-button-2:hover{
+    background-color: #1869ffac;
+}
+.hamburger{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.hamburger div{
+    background-color: white;
+    border-radius: 2px;
+    width: 25px;
+    height: 3px;
+}
+.hamburger .line-remove{
+    height: 2px;
+}
+.hamburger{
+    display: none;
+    margin-left: 40px;
+}
+.hamburger .line-2{
+    position: relative;
+}
+.hamburger .line-1{
+    position: relative;
+}
+@media(max-width: 1000px) {
+    .hamburger{
+        display: flex;
+        cursor: pointer;
+    }
+    .nav-close .nav-list{
+        display: none;
+        height: 80px;
+    }
+    .nav-open .nav-list{
+        position: absolute;
+        top: calc(100% + 40px);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .nav-open{
+        height: calc(100vh - 60px);
+    }
+}
