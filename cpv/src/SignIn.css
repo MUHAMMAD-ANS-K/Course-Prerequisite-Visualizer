@@ -1,0 +1,86 @@
+.background-signin{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.sign-form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 50px;
+    line-height: 25px;
+
+}
+.signin-up h2{
+    overflow: hidden;
+    line-height: 2.1rem;
+}
+.signin-up-p{
+    font-size: medium;
+    color: rgb(95, 93, 93);
+}
+.signin-up-a{
+    color: white;
+}
+.signin-up-a:hover{
+    color: rgb(95, 93, 93);
+}
+hr{
+    border: 0.5px solid rgb(54, 52, 52);
+    margin: 40px 0px;
+}
+.signin-list{
+    display: flex ;
+    flex-direction: column;
+    gap: 10px;
+    flex-wrap: wrap;
+    width: 230px;
+}
+.guest-button{
+    position: relative;
+    right: 7.5px;
+    height: calc(2.5rem + 5px);
+    border-radius: 16px;
+}
+.sign-button{
+    margin-top: 5px;
+    background-color: transparent;
+    border: 2px solid white;
+    background-color: transparent;
+    color: white;
+    width: 215px;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 10px;
+}
+.sign-button:hover{
+    background-color: white;
+    color : rgb(51, 50, 50);
+}
+.recommend-sign{
+    position: absolute;
+    top: 1px;
+    right: 2px;
+    color: #186aff;
+}
+.email-input, .username-input{
+    width: 215px;
+    background-color: rgb(54, 52, 52);
+    border: 2px solid rgb(54,52,52);
+    border-bottom: 1px solid rgb(154, 154, 154);
+    height: 36px;
+    padding: 5px;
+    padding-bottom: 1px;
+    color: white;
+}
+.signform-input input:focus{
+    outline: none;
+    border: 2px solid #186aff;
+}
+.margin-10px{
+    margin-bottom: 10px;
+}

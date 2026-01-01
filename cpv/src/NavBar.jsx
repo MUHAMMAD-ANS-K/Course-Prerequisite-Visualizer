@@ -71,7 +71,7 @@ export default function NavBar() {
                 </ul>
                 <div className="nav-buttons">
                     <button className="nav-button-1">Get in Touch</button>
-                    <button className="nav-button-2">Search Courses</button>
+                    <Link to="/graph"><button className="nav-button-2">Search Courses</button></Link>
                     <div className="hamburger" onClick={func}>
                         <div className="line-1"></div>
                         <div className="line-remove"></div>

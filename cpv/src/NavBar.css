@@ -126,3 +126,35 @@
         height: calc(100vh - 60px);
     }
 }
+/* App.css */
+.search-bar {
+    margin-top: 40px;
+    margin-left: 20px;
+    width: 300px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.search-bar button {
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: none;
+  background-color: #0074D9;
+  color: #fff;
+  cursor: pointer;
+}
+
+.search-bar button:hover {
+  background-color: #005bb5;
+}

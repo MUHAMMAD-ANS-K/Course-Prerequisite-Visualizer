@@ -1,0 +1,32 @@
+import { useContext, createContext, useState, useEffect } from "react";
+import api from "./api";
+const DashboardAuth = createContext();
+export default function useDashAuth(){
+    return useContext(DashboardAuth)
+} 
+export function DashboardAuthProvider({children}){
+    const[isAdmin, setIsAdmin] = useState(false);
+    const[checking, setChecking] = useState(true);
+    useEffect(()=>{
+        async function adminCheck() {
+            try{
+                const response = await api.get("/logincheck");
+                if (response.data.msg == "Success") {
+                    setIsAdmin(true);
+                }
+            }
+            catch(e){
+                setIsAdmin(false);
+            }
+            finally{
+                setChecking(false);
+            }
+        }
+        adminCheck();
+    }, [])
+    return(
+        <DashboardAuth.Provider value={{isAdmin, checking}}>
+            {children}
+        </DashboardAuth.Provider>
+    )   
+}
