@@ -4,10 +4,11 @@ from typing import List
 class CourseCreate(BaseModel):
     code: str
     title: str
+    preReqs : List[str]
 
 class PrerequisiteCreate(BaseModel):
-    course_code: str
-    prereq_code: str
+    courseCode: str
+    prereqCode: str
 
 class BulkPrerequisite(BaseModel):
     links: List[PrerequisiteCreate]

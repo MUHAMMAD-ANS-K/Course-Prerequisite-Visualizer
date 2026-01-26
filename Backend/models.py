@@ -9,9 +9,9 @@ class Course(Base):
 
 class Prerequisite(Base):
     __tablename__ = "prerequisites"
-    id = Column(Integer, primary_key=True)
-    course_code = Column(String, ForeignKey("courses.code"))
-    prereq_code = Column(String, ForeignKey("courses.code"))
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    courseCode = Column(String, ForeignKey("courses.code"))
+    prereqCode = Column(String, ForeignKey("courses.code"))
 
 class Admins(Base):
     __tablename__ = "admins"

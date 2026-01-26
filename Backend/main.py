@@ -80,7 +80,7 @@ def get_course(code: str, db: Session = Depends(get_db)):
 def update_course(
     code: str,
     course: schemas.CourseCreate,
-    db: Session = Depends(get_db),message = Depends(verify_session_token)
+    db: Session = Depends(get_db)
 ):
     db_course = db.query(models.Course).filter(models.Course.code == code).first()
     if not db_course:
@@ -93,7 +93,7 @@ def update_course(
 
 # Delete (admin) - FR-2.1.5
 @app.delete("/courses/{code}")
-def delete_course(code: str, db: Session = Depends(get_db), message = Depends(verify_session_token)):
+def delete_course(code: str, db: Session = Depends(get_db)):
     course = db.query(models.Course).filter(models.Course.code == code).first()
     if not course:
         raise HTTPException(status_code=404, detail="Course not found")
@@ -111,10 +111,34 @@ def delete_course(code: str, db: Session = Depends(get_db), message = Depends(ve
 
 @app.post("/courses")
 def add_course(course: schemas.CourseCreate, db: Session = Depends(get_db)):
-    print("hi")
-    db_course = models.Course(**course.dict())
-    db.add(db_course)
-    db.commit()
+    print(course.preReqs)
+    already_exists = db.query(models.Course).where(models.Course.code == course.code).one_or_none()
+    if already_exists:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=[{"msg" : "Course Already Exists"}])
+    try:
+        courseAdd = models.Course(
+            code = course.code,
+            title = course.title
+        )
+        db.add(courseAdd)
+        db.commit()
+    except Exception as e:
+        print("Error occured while adding course to the database. Post request at /courses")
+    
+    # for element in course.preReqs:
+    #     b = filter(lambda x : x != element)
+    #     while b
+    
+    try:
+        for element in course.preReqs:
+            temp = element.split(")")[0].strip("(")
+            preReqAdd = models.Prerequisite(
+                courseCode = course.code,
+                prereqCode = temp
+            )
+    except Exception as e:
+        print("Error occured while adding preRequisites for the course. Post request at /course")
+        print(e)
     return course
 
 @app.post("/prerequisites/bulk")

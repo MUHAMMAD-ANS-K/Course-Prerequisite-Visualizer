@@ -19,7 +19,7 @@ import { gsap } from 'gsap/gsap-core'
 function App() {
     const [email, setEmail] = useState("");
     const loc = useLocation();
-    const hidePaths = ["/chat/global", "/chat/voice", "/chat"];
+    const hidePaths = ["/a"];
     const hidePathBoolean = hidePaths.includes(loc.pathname);
     function hoverEnter(e) {
       console.log(e.currentTarget.children[0]);
@@ -54,6 +54,7 @@ function App() {
       <Route path="/listCourse" element={<DashboardAuthProvider><ListCoursesPage/></DashboardAuthProvider>}/>
       <Route path="/updateCourse" element={<DashboardAuthProvider><UpdateCoursePage/></DashboardAuthProvider>}/>
       <Route path="/add" element={<DashboardAuthProvider><AddCoursePage/></DashboardAuthProvider>}/> */}
+      <Route path="/admin/addcourse" element={<AddCoursePage/>}/>
       <Route path="/bulkadd" element={<BulkAddPrerequisitesPage/>}/>
       <Route path="/delCourse" element={<DeleteCoursePage/>}/>
       <Route path="/listCourse" element={<ListCoursesPage/>}/>

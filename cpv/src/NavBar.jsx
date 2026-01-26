@@ -20,7 +20,6 @@ export default function NavBar() {
         })
     }
     function func(e) {
-        console.log("hi")
         const el = document.querySelector(".nav");
         if(window.innerWidth <=1000) {
             if(navOpen){
@@ -29,33 +28,37 @@ export default function NavBar() {
                 gsap.to(".line-1", {
                     rotate: "0deg",
                     top : "0px",
+                    duration : 0.1,
                     ease: "sine.inOut"
                 })
                 gsap.to(".line-2", {
                     rotate: "0deg",
                     bottom : "0px",
+                    duration : 0.2,
                     ease: "sine.inOut"
                 })
-                gsap.to(".line-remove", {
-                    display : "inline"
-                })
+                document.querySelector(".line-remove").style.display = "inline"
+                // gsap.to(".line-remove", {
+                //     display : "inline"
+                // })
             }else{
                 el.classList.add("nav-open");
                 el.classList.remove("nav-close");
+                document.querySelector(".line-remove").style.display = "none"
+                // gsap.to(".line-remove", {
+                //     display : "none"
+                // });
                 gsap.to(".line-1", {
-                    rotate: "45deg",
+                    rotate: "-45deg",
                     top: "3px",
-                    duration : 0.5,
+                    duration : 0.1,
                     ease: "sine.inOut"
                 });
                 gsap.to(".line-2", {
-                    rotate: "135deg",
+                    rotate: "-135deg",
                     bottom : "3px",
-                    duration : 0.5,
+                    duration : 0.2,
                     ease: "sine.inOut"
-                });
-                gsap.to(".line-remove", {
-                    display : "none"
                 });
             }
             setnavOpen(n => !n);

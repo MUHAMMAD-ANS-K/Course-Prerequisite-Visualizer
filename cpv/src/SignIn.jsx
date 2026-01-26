@@ -49,7 +49,8 @@ export default function SignIn(props) {
                     Enter your email
                 </label>
                 <div className="signform-input">                    
-                <input className="email-input"type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+                <input className="email-input"type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} required>
+                </input>
                 </div>
         </li>
 
