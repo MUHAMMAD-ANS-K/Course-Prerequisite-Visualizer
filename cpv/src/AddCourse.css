@@ -25,7 +25,8 @@
     width: 60vw;
 }
 .add-course-main button{
-    max-width: 100px;
+    max-width: 150px;
+    cursor: pointer;
     padding: 4px 8px;
     height: 2rem;
     color: white;
@@ -38,7 +39,7 @@
     margin-left: 20px;
 }
 .selected-prereqs #prereqs-list{
-    margin: 10px 70px 70px 20px;
+    margin: 10px 70px 0px 20px;
     list-style: disc;
 }
 .removeCourse{
@@ -50,7 +51,11 @@
     bottom: -0.4rem;
 }
 .courseAdd-error{
+    text-align: center;
     margin: auto;
     width: 200px;
     color: red;
+}
+.course-page{
+    margin-bottom: 70px;
 }

@@ -1,23 +1,28 @@
 import { useState } from 'react';
 import api from './api';
+import "./AddCourse.css"
 
 function DeleteCoursePage() {
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState("");
 
   const handleDelete = async (e) => {
     e.preventDefault();
     try {
-      // DELETE to /courses/{code}
-      await api.delete(`/courses/${code}`);
+      const response = await api.delete(`/courses/${code}`);
       console.log('Course deleted:', code);
-      setCode('');
-    } catch (error) {
-      console.error('Error deleting course:', error);
+      setCode("");
+      document.querySelector(".courseAdd-error").innerHTML = "";
+    } 
+    catch (error) {
+      if(error.response.data.detail)
+        document.querySelector(".courseAdd-error").innerHTML = error.response.data.detail[0].msg;
+      // setCode("");
     }
   };
 
   return (
-    <form onSubmit={handleDelete}>
+    <div className="course-page">
+    <form onSubmit={handleDelete} className="add-course-main">
       <input
         type="text"
         placeholder="Course code to delete"
@@ -26,6 +31,8 @@ function DeleteCoursePage() {
       />
       <button type="submit">Delete Course</button>
     </form>
+    <div className="courseAdd-error"></div>
+    </div>
   );
 }
 

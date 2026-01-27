@@ -15,18 +15,37 @@ export default function Home() {
 
     // }, [])
     function questionHandler(e) {
-        // if(answer != "No") {
-        //     const el = document.querySelector(`.${answer}plus`).children[1];
-        //     gsap.to(el, {
-        //         rotate : "90deg",
-        //         overwrite : "auto"
-        //     })
-        // }
+        if(answer != "No"){
+            let el = document.querySelector(`.plus${answer}`).children[1].children[1];
+            gsap.to(el, {
+                rotate : "90deg",
+                overwrite : "auto"
+            })
+        }
+        let temp = e.currentTarget.classList[1];
+        let temp2 = temp.replace(/[a-zA-Z]/g, "");
+        if(temp2 != answer){
+            setAnswer(temp2);
+            let el = document.querySelector(`.${temp}`).children[1].children[1];
+            console.log(el);
+            gsap.to(el, {
+                rotate : "0deg",
+                overwrite : "auto"
+            })
+        }
+        else{
+            setAnswer("No");
+        }
         // const el2 = e.currentTarget
         // gsap.to(, {
         //     rotate : "180deg",
         //     overwrite : "auto"
         // })
+    }
+    function activeButtonHandler(e, active){
+        setSelection(s => active); 
+        document.querySelector(".active-button").classList.remove("active-button");
+        e.currentTarget.classList.add("active-button") 
     }
     return (
         <>
@@ -50,10 +69,10 @@ export default function Home() {
             <div className="benefit-text-container">
                 <div className="green-buttons">
                     <div className="active-button green-button" onClick={(e) => { setSelection(s => "v"); document.querySelector(".active-button").classList.remove("active-button"); e.currentTarget.classList.add("active-button") }}>Visualize</div>
-                    <div className="green-button" onClick={(e) => { setSelection(s => "u"); document.querySelector(".active-button").classList.remove("active-button"); e.currentTarget.classList.add("active-button") }}>Understand</div>
-                    <div className="green-button" onClick={(e) => { setSelection(s => "p"); document.querySelector(".active-button").classList.remove("active-button"); e.currentTarget.classList.add("active-button") }}>Plan</div>
-                    <div className="green-button" onClick={(e) => { setSelection(s => "e"); document.querySelector(".active-button").classList.remove("active-button"); e.currentTarget.classList.add("active-button") }}>Explore</div>
-                    <div className="green-button" onClick={(e) => { setSelection(s => "s"); document.querySelector(".active-button").classList.remove("active-button"); e.currentTarget.classList.add("active-button") }}>Simplify</div>
+                    <div className="green-button" onClick={(e) => activeButtonHandler(e, "u")}>Understand</div>
+                    <div className="green-button" onClick={(e) => activeButtonHandler(e, "p")}>Plan</div>
+                    <div className="green-button" onClick={(e) => activeButtonHandler(e, "e") }>Explore</div>
+                    <div className="green-button" onClick={(e) => activeButtonHandler(e, "s") }>Simplify</div>
                 </div>
                 <div className="benefit-text">
                     {currentSelection == "v" ? <div>Turn prerequisite data into clear graphical relationships.</div> : <></>}
@@ -94,7 +113,7 @@ export default function Home() {
                     <div className="flex-container">
                         <div className="question">
                             <div className="separator"></div>
-                            <div className="question-wrapper"><span className="actual-question">How does CPV works?</span><span className="plus plus1">
+                            <div className="question-wrapper plus1"  onClick={questionHandler}><span className="actual-question">How does CPV works?</span><span className="plus">
                                 <span className="plus-1"></span>
                                 <span className="plus-2"></span>
                             </span>
@@ -103,7 +122,7 @@ export default function Home() {
                             </div>
                         <div className="question">
                             <div className="separator"></div>
-                            <div className="question-wrapper"><span className="actual-question">How does CPV works?</span><span className="plus plus2" onClick={questionHandler}>
+                            <div className="question-wrapper plus2"  onClick={questionHandler}><span className="actual-question">How does CPV works?</span><span className="plus">
                                 <span className="plus-1"></span>
                                 <span className="plus-2"></span>
                             </span>
@@ -112,7 +131,7 @@ export default function Home() {
                             </div>
                         <div className="question">
                             <div className="separator"></div>
-                            <div className="question-wrapper"><span className="actual-question">How does CPV works?</span><span className="plus plus3">
+                            <div className="question-wrapper plus3" onClick={questionHandler}><span className="actual-question">How does CPV works?</span><span className="plus">
                                 <span className="plus-1"></span>
                                 <span className="plus-2"></span>
                             </span>

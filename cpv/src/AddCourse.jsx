@@ -55,15 +55,14 @@ function AddCoursePage() {
       document.querySelector(".courseAdd-error").innerHTML = "";
     }
     catch (error) {
-      console.error("Error adding course:", error);
       if(error.response.data.detail)
         document.querySelector(".courseAdd-error").innerHTML = error.response.data.detail[0].msg;
     }
   };
 
   return (
-    <>
-    <form onSubmit={handleSubmit} className='add-course-main'>
+    <div className="course-page">
+    <form onSubmit={handleSubmit} className="add-course-main">
       <input
         type="text"
         placeholder="Course code"
@@ -94,7 +93,7 @@ function AddCoursePage() {
       {courses.map((crsname)=> <li key={crsname}><span className="courseName">{crsname}</span><span className="removeCourse" onClick={removeCourse}>-</span></li>)}
     </ul>
     </div>
-    </>
+    </div>
   );
 }
 

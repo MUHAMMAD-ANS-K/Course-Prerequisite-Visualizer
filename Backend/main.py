@@ -91,18 +91,14 @@ def update_course(
     return db_course
 
 
-# Delete (admin) - FR-2.1.5
 @app.delete("/courses/{code}")
 def delete_course(code: str, db: Session = Depends(get_db)):
-    course = db.query(models.Course).filter(models.Course.code == code).first()
+    course = db.query(models.Course).where(models.Course.code == code).one_or_none()
     if not course:
-        raise HTTPException(status_code=404, detail="Course not found")
+        raise HTTPException(status_code=404, detail=[{"msg": "Course not found"}])
 
-    # delete related prerequisites first
-    db.query(models.Prerequisite).filter(
-        (models.Prerequisite.course_code == code) |
-        (models.Prerequisite.prereq_code == code)
-    ).delete()
+    
+    db.query(models.Prerequisite).where( models.Prerequisite.courseCode == code, models.Prerequisite.prereqCode == code ).delete()
 
     db.delete(course)
     db.commit()
@@ -111,10 +107,11 @@ def delete_course(code: str, db: Session = Depends(get_db)):
 
 @app.post("/courses")
 def add_course(course: schemas.CourseCreate, db: Session = Depends(get_db)):
-    print(course.preReqs)
+
     already_exists = db.query(models.Course).where(models.Course.code == course.code).one_or_none()
     if already_exists:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=[{"msg" : "Course Already Exists"}])
+    
     try:
         courseAdd = models.Course(
             code = course.code,

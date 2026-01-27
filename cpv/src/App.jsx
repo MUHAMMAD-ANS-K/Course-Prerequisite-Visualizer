@@ -56,7 +56,7 @@ function App() {
       <Route path="/add" element={<DashboardAuthProvider><AddCoursePage/></DashboardAuthProvider>}/> */}
       <Route path="/admin/addcourse" element={<AddCoursePage/>}/>
       <Route path="/bulkadd" element={<BulkAddPrerequisitesPage/>}/>
-      <Route path="/delCourse" element={<DeleteCoursePage/>}/>
+      <Route path="/admin/delCourse" element={<DeleteCoursePage/>}/>
       <Route path="/listCourse" element={<ListCoursesPage/>}/>
       <Route path="/search" element={<SearchCoursePage/>}/>
       <Route path="/updateCourse" element={<UpdateCoursePage/>}/>
