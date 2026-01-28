@@ -7,7 +7,6 @@ import Home from './Home'
 import Footer from './Footer'
 import SignIn from './SignIn'
 import { DashboardAuthProvider } from "./useDashAuth.jsx";
-import BulkAddPrerequisitesPage from './BulkAddPrerequisitesPage'
 import DeleteCoursePage from './DeleteCourse'
 import ListCoursesPage from './ListCoursePage'
 import SearchCoursePage from './SearchCoursePage'
@@ -16,6 +15,7 @@ import AddCoursePage from './AddCourse'
 import CourseGraph from './Source'
 import OTPForm from './Otp'
 import { gsap } from 'gsap/gsap-core'
+import SuperUser from './SuperUser.jsx'
 function App() {
     const [email, setEmail] = useState("");
     const loc = useLocation();
@@ -55,11 +55,11 @@ function App() {
       <Route path="/updateCourse" element={<DashboardAuthProvider><UpdateCoursePage/></DashboardAuthProvider>}/>
       <Route path="/add" element={<DashboardAuthProvider><AddCoursePage/></DashboardAuthProvider>}/> */}
       <Route path="/admin/addcourse" element={<AddCoursePage/>}/>
-      <Route path="/bulkadd" element={<BulkAddPrerequisitesPage/>}/>
       <Route path="/admin/delCourse" element={<DeleteCoursePage/>}/>
+      <Route path="/admin/updateCourse" element={<UpdateCoursePage/>}/>
+      <Route path="/admin/superUser" element={<SuperUser/>}/>
       <Route path="/listCourse" element={<ListCoursesPage/>}/>
       <Route path="/search" element={<SearchCoursePage/>}/>
-      <Route path="/updateCourse" element={<UpdateCoursePage/>}/>
       <Route path="/graph" element={<CourseGraph/>}/>
     </Routes>
     {!hidePathBoolean && <Footer/>}

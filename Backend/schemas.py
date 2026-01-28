@@ -6,17 +6,21 @@ class CourseCreate(BaseModel):
     title: str
     preReqs : List[str]
 
+class CourseUpdate(BaseModel):
+    code: str
+    title: str
+    preReqs : List[str]
+
 class PrerequisiteCreate(BaseModel):
     courseCode: str
     prereqCode: str
 
-class BulkPrerequisite(BaseModel):
-    links: List[PrerequisiteCreate]
-
-
 class Email_signin(BaseModel):
     email: EmailStr
 
+class Add_user(BaseModel):
+    email : EmailStr
+    username : str
 
 class OTP_verification(Email_signin):
     otp : str

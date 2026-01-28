@@ -13,7 +13,7 @@ function AddCoursePage() {
     async function func(){
       try{
         const response = await api.get("/courses");
-        const arr = response.data.map((element) => "(" + element.code + ") " + element.title);
+        const arr = response.data.map((element) => element.code + " - " + element.title);
         setOriginals(arr);
         setAvailablePreReqs(arr);
       }
@@ -34,10 +34,10 @@ function AddCoursePage() {
   }
 
   function removeCourse(e) {
-    const course = e.target.parentNode.childNodes[0].innerText;
-    console.log(courses);
+    const course = e.currentTarget.parentNode.childNodes[0].innerText;
     if(courses.includes(course)){
       setCourses(p => p.filter((el)=>el!=course));
+      setAvailablePreReqs([...availablePreReqs, course]);
     }
   }
   async function handleSubmit(e){
@@ -45,7 +45,7 @@ function AddCoursePage() {
     try {
       const response = await api.post("/courses", { code : code.toUpperCase(), title: title.toUpperCase(), preReqs : courses});
       console.log("Course added:", response.data);
-      let arr = [...orignalCourses, "(" + code + ") " + title];
+      let arr = [...orignalCourses, code + " - " + title];
       console.log(arr);
       setOriginals(arr);
       setCode(""); 
@@ -55,8 +55,11 @@ function AddCoursePage() {
       document.querySelector(".courseAdd-error").innerHTML = "";
     }
     catch (error) {
+      const element = document.querySelector(".courseAdd-error");
       if(error.response.data.detail)
-        document.querySelector(".courseAdd-error").innerHTML = error.response.data.detail[0].msg;
+        element.innerHTML = error.response.data.detail[0].msg;
+      else
+        element.innerHTML = "An error occured while sending your request";
     }
   };
 
@@ -80,13 +83,13 @@ function AddCoursePage() {
       <select className="add-courselist" onChange={coursesHandler} defaultValue="">
         <option value="">Select Pre-requisites</option>
         {availablePreReqs.map((element) => <option value={element} key={element}>{element}</option>)}
-        <option value="(a) Hi">Hi</option>
-        <option value="(b) Ci">Ci</option>
-        <option value="(c) Bi">Bi</option>
+        <option value="a - Hi">Hi</option>
+        <option value="b - Ci">Ci</option>
+        <option value="c - Bi">Bi</option>
       </select>
       <button type="submit">Add Course</button>
     </form>
-    <div className="courseAdd-error"></div>
+    <div className="course-error courseAdd-error"></div>
     <div className="selected-prereqs">
     <h2>Pre-Requisites: </h2>
     <ul id="prereqs-list">

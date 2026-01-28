@@ -50,7 +50,7 @@
     left: 70px;
     bottom: -0.4rem;
 }
-.courseAdd-error{
+.course-error{
     text-align: center;
     margin: auto;
     width: 200px;
@@ -58,4 +58,18 @@
 }
 .course-page{
     margin-bottom: 70px;
+}
+.update-name{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.update-name div{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.update-name div input{
+    height: auto;
+    width: auto;
 }

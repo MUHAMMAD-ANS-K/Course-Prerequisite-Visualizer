@@ -61,34 +61,58 @@ async def verify_session_token(session_token: Annotated[str | None, Cookie()] = 
 
 
 
-# Read (user) - FR-2.1.3
 @app.get("/courses")
 def list_courses(db: Session = Depends(get_db)):
     return db.query(models.Course).all()
 
+@app.get("/preReqs/{code}")
+def return_preReqs(code : str, db : Session = Depends(get_db)):
+    try:
+        temp = db.query(models.Prerequisite).where(models.Prerequisite.courseCode == code).all()
+    except Exception as e:
+        print("Error occured while fetching pre-requisites from the database")
+
+    try:
+        result = list()
+        for element in temp:
+            tmp = db.query(models.Course).where(models.Course.code == element.prereqCode).one_or_none()
+            result.append(tmp)
+    except Exception as e:
+        print("Error occured while getting pre-requisites full detail")
+    return result
 
 @app.get("/courses/{code}")
 def get_course(code: str, db: Session = Depends(get_db)):
-    course = db.query(models.Course).filter(models.Course.code == code).first()
+    course = db.query(models.Course).where(models.Course.code == code).first()
     if not course:
         raise HTTPException(status_code=404, detail="Course not found")
     return course
 
 
-# Update (admin) - FR-2.1.4
 @app.put("/courses/{code}")
-def update_course(
-    code: str,
-    course: schemas.CourseCreate,
-    db: Session = Depends(get_db)
-):
-    db_course = db.query(models.Course).filter(models.Course.code == code).first()
-    if not db_course:
-        raise HTTPException(status_code=404, detail="Course not found")
+def update_course(code: str, course: schemas.CourseUpdate, db: Session = Depends(get_db)):
+    try:
+        db_data = db.query(models.Course).where(models.Course.code == code).one_or_none()
+    except Exception as e:
+        print("Error occured while fetching course with the id")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=[{"msg" : "Wrong course code"}])
+    
+    db_data.title = course.title
 
-    db_course.title = course.title
+    try:
+        db.query(models.Prerequisite).where(models.Prerequisite.courseCode == code).delete()
+        for preReq in course.preReqs:
+            temp = preReq.split(" - ")
+            preReq_data_add = models.Prerequisite(
+                courseCode = code,
+                prereqCode = temp[0]
+            )
+            db.add(preReq_data_add)
+    except Exception as e:
+        print("Error Occured while updating preRequistes for the course", e)
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=[{"msg" : "Server in maintainenace"}])
     db.commit()
-    return db_course
+    return {"msg" : "Successfully updated Course"}
 
 
 @app.delete("/courses/{code}")
@@ -128,47 +152,61 @@ def add_course(course: schemas.CourseCreate, db: Session = Depends(get_db)):
     
     try:
         for element in course.preReqs:
-            temp = element.split(")")[0].strip("(")
+            temp = element.split("-")[0].strip(" ")
             preReqAdd = models.Prerequisite(
                 courseCode = course.code,
                 prereqCode = temp
             )
+            db.add(preReqAdd)
+        db.commit()
     except Exception as e:
         print("Error occured while adding preRequisites for the course. Post request at /course")
         print(e)
     return course
 
-@app.post("/prerequisites/bulk")
-def add_links(data: schemas.BulkPrerequisite, db: Session = Depends(get_db)):
-    for link in data.links:
-        db.add(models.Prerequisite(**link.dict()))
-    db.commit()
-    return {"status": "ok"}
+@app.get("/users")
+def get_users(db : Session = Depends(get_db)):
+    users = db.query(models.Users).all()
+    print(users)
+
+@app.post("/users")
+def add_user(user : schemas.Add_user,db : Session = Depends(get_db)):
+    try:
+        user_data = models.Users(
+            email = user.email,
+            username = user.username
+        )
+        db.add(user_data)
+        db.commit()
+    except Exception as e:
+        print("Error occured while adding user to the database")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=[{"msg" : "User Not Added"}])
+    return {"msg" : f"{user.username}"}
 
 @app.get("/graph")
-def get_graph(db: Session = Depends(get_db)):
-    return{
-  "nodes": [
-    { "id": 'CS101', "label": 'Intro to CS' },
-    { "id": 'CS102', "label": 'Data Structures' },
-    { "id": 'CS103', "label": 'Algorithms' },
-    { "id": 'CS104', "label": 'Databases' },
-    { "id": 'CS105', "label": 'Operating Systems' }
-  ],
-  "links": [
-    { "source": 'CS101', "target": 'CS102' },
-    { "source": 'CS101', "target": 'CS103' },
-    { "source": 'CS102', "target": 'CS104' },
-    { "source": 'CS103', "target": 'CS105' }
-  ]
-}
+def get_graph(db : Session = Depends(get_db)):
+#     return{
+#   "nodes": [
+#     { "id": 'CS101', "label": 'Intro to CS' },
+#     { "id": 'CS102', "label": 'Data Structures' },
+#     { "id": 'CS103', "label": 'Algorithms' },
+#     { "id": 'CS104', "label": 'Databases' },
+#     { "id": 'CS105', "label": 'Operating Systems' }
+#   ],
+#   "links": [
+#     { "source": 'CS101', "target": 'CS102' },
+#     { "source": 'CS101', "target": 'CS103' },
+#     { "source": 'CS102', "target": 'CS104' },
+#     { "source": 'CS103', "target": 'CS105' }
+#   ]
+# }
 
     courses = db.query(models.Course).all()
     prereqs = db.query(models.Prerequisite).all()
 
     return {
         "nodes": [{"id": c.code, "label": c.title} for c in courses],
-        "links": [{"source": p.prereq_code, "target": p.course_code} for p in prereqs]
+        "links": [{"source": p.prereqCode, "target": p.courseCode} for p in prereqs]
     }
 
 

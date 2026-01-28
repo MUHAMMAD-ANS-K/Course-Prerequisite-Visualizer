@@ -11,11 +11,14 @@ function DeleteCoursePage() {
       const response = await api.delete(`/courses/${code}`);
       console.log('Course deleted:', code);
       setCode("");
-      document.querySelector(".courseAdd-error").innerHTML = "";
+      document.querySelector(".courseDel-error").innerHTML = "";
     } 
     catch (error) {
+      const element = document.querySelector(".courseDel-error");
       if(error.response.data.detail)
-        document.querySelector(".courseAdd-error").innerHTML = error.response.data.detail[0].msg;
+        element.innerHTML = error.response.data.detail[0].msg;
+      else
+        element.innerHTML = "An error occured while sending your request";
       // setCode("");
     }
   };
@@ -31,7 +34,7 @@ function DeleteCoursePage() {
       />
       <button type="submit">Delete Course</button>
     </form>
-    <div className="courseAdd-error"></div>
+    <div className="course-error courseDel-error"></div>
     </div>
   );
 }
